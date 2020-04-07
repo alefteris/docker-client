@@ -1177,7 +1177,7 @@ public class DefaultDockerClientUnitTest {
   
   @Test
   public void testBufferedRequestEntityProcessing() throws Exception {
-    builder.useRequestEntityProcessing(RequestEntityProcessing.BUFFERED);
+    builder.requestProcessingMode(RequestEntityProcessing.BUFFERED);
     final DefaultDockerClient dockerClient = builder.build();
     
     final HostConfig hostConfig = HostConfig.builder().build();
@@ -1198,7 +1198,7 @@ public class DefaultDockerClientUnitTest {
   
   @Test
   public void testChunkedRequestEntityProcessing() throws Exception {
-    builder.useRequestEntityProcessing(RequestEntityProcessing.CHUNKED);
+    builder.requestProcessingMode(RequestEntityProcessing.CHUNKED);
     final DefaultDockerClient dockerClient = builder.build();
     
     final HostConfig hostConfig = HostConfig.builder().build();

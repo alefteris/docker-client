@@ -47,7 +47,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Umberto Nicoletti (umberto.nicoletti@gmail.com)
  */
-public class ConnectionPoolTest {
+public abstract class ConnectionPoolTest {
 
   private static final String BUSYBOX = "busybox";
   private static final String BUSYBOX_LATEST = BUSYBOX + ":latest";
@@ -60,6 +60,8 @@ public class ConnectionPoolTest {
 
   private final String nameTag = toHexString(ThreadLocalRandom.current().nextLong());
 
+  abstract DockerClientBuilder builder();
+  
   /**
    * Checks that running a parallel operation does not break DefaultDockerClient.
    * Fixes issue #446.
@@ -75,7 +77,7 @@ public class ConnectionPoolTest {
               new Callable<Exception>() {
                 @Override
                 public Exception call() throws Exception {
-                  try (DockerClient docker = DockerClientBuilder.fromEnv().build()) {
+                  try (DockerClient docker = builder().build()) {
                     docker.pull(ConnectionPoolTest.BUSYBOX_LATEST);
                     docker.pull(ConnectionPoolTest.BUSYBOX_BUILDROOT_2013_08_1);
                   } catch (InterruptedException | DockerException | DockerCertificateException e) {
